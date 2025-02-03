@@ -13,7 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 
-const pages = ["Home", "Check-In-Out"];
+const pages = ["Home", "Time Sheet"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 interface AppBarProps {
   userName: string;

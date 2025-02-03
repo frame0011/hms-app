@@ -1,19 +1,41 @@
-import React, { use, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "../../page/Home/home-page.tsx";
 import Stack from "@mui/material/Stack";
 import ResponsiveAppBar from "../appbar/app-bar-component.tsx";
 import LoginForm from "../forms/loginForm/login-form.tsx";
+import CheckInCheckOutPage from "../../page/CheeckInCheckOut/check-in-check-out-page.tsx";
+
 function AppLayout() {
-  const [login, setLogin] = useState(false);
-  const [userName, setUserName] = useState("");
+  const [login, setLogin] = useState<boolean>(false);
+  const [userName, setUserName] = useState<string>("");
+
+  // ตรวจสอบสถานะการล็อกอินจาก localStorage
+  useEffect(() => {
+    const storedUserName = localStorage.getItem("userName");
+    const storedLoginStatus = localStorage.getItem("loginStatus");
+
+    if (storedUserName && storedLoginStatus === "true") {
+      setUserName(storedUserName);
+      setLogin(true);
+    }
+  }, []);
+
   const handleLogin = (data: string) => {
     setUserName(data);
-    setLogin(true); // เมื่อล็อกอินสำเร็จ ให้ค่า Login เป็น true
+    setLogin(true);
+    // เก็บข้อมูลใน localStorage
+    localStorage.setItem("userName", data);
+    localStorage.setItem("loginStatus", "true");
   };
+
   const handleLogOut = () => {
-    setLogin(false); // เมื่อล็อกอินสำเร็จ ให้ค่า Login เป็น true
+    setLogin(false);
+    // ลบข้อมูลจาก localStorage เมื่อออกจากระบบ
+    localStorage.removeItem("userName");
+    localStorage.removeItem("loginStatus");
   };
+
   return (
     <Stack>
       <Stack>
@@ -25,7 +47,13 @@ function AppLayout() {
         <Routes>
           <Route
             path="/"
-            element={login ? <HomePage /> : <LoginForm onLogin={handleLogin} />}
+            element={
+              localStorage.getItem("loginStatus") ? (
+                <CheckInCheckOutPage userName={userName} basePath={""} />
+              ) : (
+                <LoginForm onLogin={handleLogin} />
+              )
+            }
           />
         </Routes>
       </BrowserRouter>

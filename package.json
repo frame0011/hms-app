@@ -7,13 +7,17 @@
     "@emotion/styled": "^11.14.0",
     "@hookform/resolvers": "^3.10.0",
     "@mui/icons-material": "^6.4.2",
+    "@mui/joy": "^5.0.0-beta.51",
     "@mui/material": "^6.4.2",
+    "@mui/x-date-pickers": "^7.25.0",
     "cra-template-typescript": "1.2.0",
+    "dayjs": "^1.11.13",
     "hms-app": "file:",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
     "react-scripts": "5.0.1",
+    "xlsx": "^0.18.5",
     "zod": "^3.24.1"
   },
   "scripts": {
