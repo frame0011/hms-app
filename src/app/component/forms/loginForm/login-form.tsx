@@ -32,7 +32,11 @@ function LoginForm({ onLogin }: LoginProps) {
   // This will handle form submission and call onLogin when successful
   const onSubmit = (data: signUpSchemaType) => {
     //setDataSubmit(data);
-    onLogin(data.username); // Call the onLogin function passed from AppLayout
+    if (data.username === "testusr1" && data.password === "1234") {
+      onLogin(data.username); // Call the onLogin function passed from AppLayout
+    } else {
+      alert("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
+    }
   };
 
   return (

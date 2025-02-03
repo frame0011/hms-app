@@ -43,30 +43,36 @@ export default function DateCalendarForm({
     }
   }, [dataCurrent]);
 
+  const handleSubmitFormChange = () => {
+    const startDateData = startDate?.toDate() || new Date(); // ใช้ startDate หรือใหม่ถ้าไม่มีกำหนด
+    const isHoliday = isWeekend(startDateData);
+    if (isHoliday === "Not a holiday") {
+      handleSave();
+    } else {
+      handleLeave();
+    }
+  };
   // ฟังก์ชันสำหรับบันทึกข้อมูล
   const handleSave = () => {
-    if (startTime && endTime && project) {
-      const newData = new CheckInCheckOut(
-        data.length + 1, // สร้าง id ใหม่
-        "Sorawit", // เพิ่มข้อมูลชื่อผู้ใช้ตามที่ต้องการ
-        startDate?.toDate() || new Date(),
-        startTime,
-        endTime,
-        false, // ใส่ค่า default หรือเงื่อนไขของ holiday
-        false, // ใส่ค่า default หรือเงื่อนไขของ leave
-        project,
-        8,
-        reason
-      );
-      setData((prevData) => [...prevData, newData]);
-    } else {
-      alert("กรุณากรอกข้อมูลให้ครบถ้วน!");
-    }
+    const newData = new CheckInCheckOut(
+      data.length + 1, // สร้าง id ใหม่
+      "Sorawit", // เพิ่มข้อมูลชื่อผู้ใช้ตามที่ต้องการ
+      startDate?.toDate() || new Date(),
+      startTime || "8:30",
+      endTime || "17:30",
+      false, // ใส่ค่า default หรือเงื่อนไขของ holiday
+      false, // ใส่ค่า default หรือเงื่อนไขของ leave
+      project || "project",
+      8,
+      reason
+    );
+    setData((prevData) => [...prevData, newData]);
   };
   const isWeekend = (date: Date) => {
     const day = date.getDay(); // getDay() คืนค่า 0-6 โดย 0 = อาทิตย์, 6 = เสาร์
     if (day === 6) return "วันหยุด(เสาร์)";
-    if (day === 0) return "วันหยุด(อาทิตย์)";
+    else if (day === 0) return "วันหยุด(อาทิตย์)";
+    else return "Not a holiday";
   };
 
   const handleLeave = () => {
@@ -145,15 +151,14 @@ export default function DateCalendarForm({
             label="Start Time"
             name="Start Time"
             defaultValue="8:30"
-            value={startTime}
+            value={startTime || "8:30"}
             onChange={(e) => setStartTime(e.target.value)}
           />
           <TextField
             size="small"
             label="End Time"
             name="End Time"
-            defaultValue="17:30"
-            value={endTime}
+            value={endTime || "17:30"}
             onChange={(e) => {
               setEndTime(e.target.value);
               setWorkingHours(calculateWorkingHours(startTime, e.target.value));
@@ -161,7 +166,7 @@ export default function DateCalendarForm({
           />
         </StackLayout>
 
-        <StackLayout direction="row">
+        {/* <StackLayout direction="row">
           <Textarea
             minRows={2}
             placeholder="Leave Reason (Optional)"
@@ -169,22 +174,22 @@ export default function DateCalendarForm({
             value={reason}
             onChange={(e) => setReason(e.target.value)}
           />
-        </StackLayout>
+        </StackLayout> */}
       </StackLayout>
 
       <Stack spacing={2} direction="row" sx={{ marginTop: "10px" }}>
-        <Button
+        {/* <Button
           variant="contained"
           color="inherit"
           size="small"
           onClick={handleLeave}
         >
           Leave <LogoutIcon sx={{ width: "13px", height: "13px" }} />
-        </Button>
+        </Button> */}
         <Button
           variant="contained"
           size="small"
-          onClick={handleSave} // บันทึกข้อมูลเมื่อคลิกปุ่ม Save
+          onClick={handleSubmitFormChange} // บันทึกข้อมูลเมื่อคลิกปุ่ม Save
         >
           Save <SaveAsIcon sx={{ width: "13px", height: "13px" }} />
         </Button>
