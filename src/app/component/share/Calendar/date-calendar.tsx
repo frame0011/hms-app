@@ -45,7 +45,7 @@ export default function DateCalendarForm({
 
   // ฟังก์ชันสำหรับบันทึกข้อมูล
   const handleSave = () => {
-    if (startTime && endTime && project && reason) {
+    if (startTime && endTime && project) {
       const newData = new CheckInCheckOut(
         data.length + 1, // สร้าง id ใหม่
         "Sorawit", // เพิ่มข้อมูลชื่อผู้ใช้ตามที่ต้องการ
@@ -63,8 +63,18 @@ export default function DateCalendarForm({
       alert("กรุณากรอกข้อมูลให้ครบถ้วน!");
     }
   };
+  const isWeekend = (date: Date) => {
+    const day = date.getDay(); // getDay() คืนค่า 0-6 โดย 0 = อาทิตย์, 6 = เสาร์
+    if (day === 6) return "วันหยุด(เสาร์)";
+    if (day === 0) return "วันหยุด(อาทิตย์)";
+  };
 
   const handleLeave = () => {
+    const startDateData = startDate?.toDate() || new Date(); // ใช้ startDate หรือใหม่ถ้าไม่มีกำหนด
+    const isHoliday = isWeekend(startDateData);
+
+    console.log(isHoliday); // true ถ้าเป็นวันเสาร์หรืออาทิตย์, false ถ้าไม่ใช่
+
     const newData = new CheckInCheckOut(
       data.length + 1, // สร้าง id ใหม่
       "Sorawit", // เพิ่มข้อมูลชื่อผู้ใช้ตามที่ต้องการ
@@ -75,7 +85,7 @@ export default function DateCalendarForm({
       false, // ใส่ค่า default หรือเงื่อนไขของ leave
       "",
       0,
-      reason
+      isHoliday
     );
     setData((prevData) => [...prevData, newData]);
   };
