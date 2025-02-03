@@ -44,7 +44,7 @@ function CheckInCheckOutTable({
     // Map data to an array of objects that will be exported
     const exportData = data.map((item) => ({
       ID: item.id,
-      Date: item.date.toLocaleString("en-GB"),
+      Date: item.date.toLocaleDateString("en-GB"), // ใช้ toLocaleDateString เพื่อให้แสดงแค่วันที่
       StartTime: item.startTime,
       EndTime: item.endTime,
       WorkingHours: item.workingHours === 0 ? "" : item.workingHours, // Replace 0 with blank
