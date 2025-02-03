@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import InputTextComponent from "../../share/input/input-text-component.tsx";
 import LoginLayout from "../../layout/login-layout.tsx";
 import StackLayout from "../../layout/share-layout/stack-layout.tsx";
-import InputPasswordComponent from "../../share/input/input-password-component.tsx";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,7 +14,11 @@ const signUpSchema = z.object({
 });
 type signUpSchemaType = z.infer<typeof signUpSchema>;
 
-function LoginForm({ onLogin }: { onLogin: () => void }) {
+interface LoginProps {
+  onLogin: (data: string) => void;
+}
+
+function LoginForm({ onLogin }: LoginProps) {
   const {
     control,
     handleSubmit, // handleSubmit from react-hook-form
@@ -29,7 +32,7 @@ function LoginForm({ onLogin }: { onLogin: () => void }) {
   // This will handle form submission and call onLogin when successful
   const onSubmit = (data: signUpSchemaType) => {
     //setDataSubmit(data);
-    onLogin(); // Call the onLogin function passed from AppLayout
+    onLogin(data.username); // Call the onLogin function passed from AppLayout
   };
 
   return (
@@ -43,9 +46,10 @@ function LoginForm({ onLogin }: { onLogin: () => void }) {
               control={control}
               error={!!errors.username}
             />
-            <InputPasswordComponent
-              type="password"
-              placeholder="Input 2"
+            <InputTextComponent
+              label="password"
+              name="password"
+              control={control}
               error={!!errors.password}
             />
           </StackLayout>

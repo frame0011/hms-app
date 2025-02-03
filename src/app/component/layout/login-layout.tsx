@@ -29,7 +29,7 @@ function LoginLayout({ children, title, subtitle }: LoginLayoutProps) {
         backgroundColor: "#f5f5f5",
       }}
     >
-      <Card sx={{ minWidth: 320, padding: 3, textAlign: "center" }}>
+      <Box sx={{ minWidth: 320, padding: 3, textAlign: "center" }}>
         <GridLayout>
           <Avatar
             sx={{
@@ -52,8 +52,8 @@ function LoginLayout({ children, title, subtitle }: LoginLayoutProps) {
             {subtitle}
           </Stack>
         )}
-        <CardContent>{children}</CardContent>
-      </Card>
+        {children}
+      </Box>
     </Box>
   );
 }

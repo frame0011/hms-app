@@ -6,7 +6,9 @@ import ResponsiveAppBar from "../appbar/app-bar-component.tsx";
 import LoginForm from "../forms/loginForm/login-form.tsx";
 function AppLayout() {
   const [login, setLogin] = useState(false);
-  const handleLogin = () => {
+  const [userName, setUserName] = useState("");
+  const handleLogin = (data: string) => {
+    setUserName(data);
     setLogin(true); // เมื่อล็อกอินสำเร็จ ให้ค่า Login เป็น true
   };
   const handleLogOut = () => {
@@ -16,7 +18,7 @@ function AppLayout() {
     <Stack>
       <Stack>
         {login && (
-          <ResponsiveAppBar userName="Testusr1" onLogout={handleLogOut} />
+          <ResponsiveAppBar userName={userName} onLogout={handleLogOut} />
         )}
       </Stack>
       <BrowserRouter>
